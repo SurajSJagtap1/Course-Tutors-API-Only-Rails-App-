@@ -1,9 +1,7 @@
 class CoursesController < ApplicationController
 
     def create
-
         course = Course.create(course_params)
-
         if course.save
             status = 201
             response = {
@@ -21,7 +19,7 @@ class CoursesController < ApplicationController
     end
 
     def index
-        courses = Course.includes(:tutors).as_json(include: :tutors)
+        courses = Course.includes(:tutors).page.as_json(include: :tutors)
         response = courses.present? ? { courses: courses } : {courses: [], message: I18n.t('course.not_found')}
         render :json => response, status: 200
     end
