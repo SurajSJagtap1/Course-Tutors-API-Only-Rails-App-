@@ -34,3 +34,4 @@ en:
   course:
     created_success: "Course and associated tutors created successfully"
     failed_to_create: "Failed to create course and the tutors"
+    not_found: "No Courses Found"

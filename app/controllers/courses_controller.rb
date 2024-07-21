@@ -20,6 +20,12 @@ class CoursesController < ApplicationController
         render :json => response, status: status
     end
 
+    def index
+        courses = Course.includes(:tutors).as_json(include: :tutors)
+        response = courses.present? ? { courses: courses } : {courses: [], message: I18n.t('course.not_found')}
+        render :json => response, status: 200
+    end
+
     private
 
     def course_params()
