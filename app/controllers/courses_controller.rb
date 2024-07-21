@@ -1,22 +1,23 @@
 class CoursesController < ApplicationController
-    
+
     def create
 
         course = Course.create(course_params)
 
         if course.save
+            status = 201
             response = {
                 course_id: course.id,
-                message: 'Course and associated tutors created successfully',
-                status: :created
+                message: I18n.t('course.created_success')
             }
         else
+            status = 400
             response = {
                 errors: course.errors,
-                status: :bad_request
+                message: I18n.t('course.failed_to_create'),
             }
         end
-        render :json => response
+        render :json => response, status: status
     end
 
     private
