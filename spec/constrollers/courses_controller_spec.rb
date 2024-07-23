@@ -3,7 +3,6 @@ require 'rails_helper'
 RSpec.describe CoursesController, type: :controller do
 
     context 'Creating courses and associated tutors' do
-
     end
 
     context 'Listing of Courses and associated tutors' do
