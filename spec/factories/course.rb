@@ -2,7 +2,7 @@ require 'faker'
 
 FactoryGirl.define do
   factory :course do
-    name { Faker::Educator.course }
+    name { Faker::Educator.unique.course }
     description { Faker::Lorem.sentence }
     duration { Faker::Number.non_zero_digit }
     fees { Faker::Commerce.price * 100 }
@@ -20,8 +20,8 @@ end
 
 FactoryGirl.define do
   factory :tutor do
-      name { Faker::Name.name_with_middle }
-      email { Faker::Internet.email(domain: 'test.com') }
+      name { Faker::Name.unique.name_with_middle }
+      email { Faker::Internet.unique.email(domain: 'test.com') }
       age { Faker::Number.non_zero_digit }
       expertise { Faker::Educator.subject }
       course

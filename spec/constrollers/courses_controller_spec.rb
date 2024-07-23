@@ -61,7 +61,7 @@ RSpec.describe CoursesController, type: :request do
             end
 
             it 'Returns paginated response of 10 courses per page' do
-                course = create_list(:course, 11)
+                course = create_list(:course, 24)
                 get '/courses'
 
                 expect(response.status).to eql(200)
