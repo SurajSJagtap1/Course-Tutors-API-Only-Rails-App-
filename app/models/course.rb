@@ -6,5 +6,4 @@ class Course < ApplicationRecord
 
     validates :name, presence: true, uniqueness: true
     validates :duration, presence: true
-
 end

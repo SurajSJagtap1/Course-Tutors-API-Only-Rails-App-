@@ -2,6 +2,7 @@ class CoursesController < ApplicationController
 
     def create
         course = Course.create(course_params)
+
         if course.save
             status = 201
             response = {
@@ -27,7 +28,7 @@ class CoursesController < ApplicationController
     private
 
     def course_params()
-        params.require(:course).permit(:name, :duration, :fees,
+        params.require(:course).permit(:name, :duration, :fees, :description,
             :tutors_attributes => [:name, :email, :age, :expertise]
         )
     end
