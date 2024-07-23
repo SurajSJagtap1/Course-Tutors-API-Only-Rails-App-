@@ -51,10 +51,21 @@ RSpec.describe CoursesController, type: :request do
 
     context 'Listing of Courses and associated tutors' do
         describe 'GET /courses' do
-            it 'Returns courses and its associated tutors' do
+
+            it 'Successfully courses and its associated tutors' do
                 course = create(:course)
                 get '/courses'
                 expect(response.status).to eql(200)
+                expect(JSON.parse(response.body)["courses"].count).to eq(1)
+                expect(JSON.parse(response.body)["courses"][0]["tutors"].count).to eq(2) # As per specified in factory, creates 2 tutors per course
+            end
+
+            it 'Returns paginated response of 10 courses per page' do
+                course = create_list(:course, 11)
+                get '/courses'
+
+                expect(response.status).to eql(200)
+                expect(JSON.parse(response.body)["courses"].count).to eq(10)
             end
         end
     end
