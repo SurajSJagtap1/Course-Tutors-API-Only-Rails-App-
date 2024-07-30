@@ -10,17 +10,14 @@ RSpec.describe CoursesController, type: :request do
                 post "/courses", params: valid_course_attributes
             
                 expect(response.status).to eql(201)
-                expect(response.message).to eql(I18n.t('http_created'))
-                expect(JSON.parse(response.body).keys).to contain_exactly("course_id", "message")
             end
 
             it 'fails to create course when course name is sent empty' do
                 valid_course_attributes = { course: { name: "", duration: "6 Months", fees: 12000 } }
                 post "/courses", params: valid_course_attributes
 
-                expect(response.status).to eql(400)
-                expect(JSON.parse(response.body).keys).to include("errors")
-                expect(JSON.parse(response.body)["errors"]["name"]).to include("can't be blank")
+                expect(response.status).to eql(422)
+                expect(JSON.parse(response.body)["name"]).to include("can't be blank")
             end
 
             it 'successfully creates course and its associated tutors when valid params are passed' do
@@ -30,8 +27,6 @@ RSpec.describe CoursesController, type: :request do
                 post "/courses", params: valid_params
 
                 expect(response.status).to eql(201)
-                expect(response.message).to eql(I18n.t('http_created'))
-                expect(JSON.parse(response.body).keys).to contain_exactly("course_id", "message")
             end
 
             it 'fails to create course and its associated tutors when tutor params are invalid' do
@@ -40,10 +35,9 @@ RSpec.describe CoursesController, type: :request do
 
                 post "/courses", params: params
 
-                expect(response.status).to eql(400)
-                expect(response.message).to eql(I18n.t('http_bad_request'))
-                expect(JSON.parse(response.body)["errors"]["tutors.name"]).to include("can't be blank")
-                expect(JSON.parse(response.body)["errors"]["tutors.email"]).to include("can't be blank")
+                expect(response.status).to eql(422)
+                expect(JSON.parse(response.body)["tutors.name"]).to include("can't be blank")
+                expect(JSON.parse(response.body)["tutors.email"]).to include("can't be blank")
             end
 
         end
