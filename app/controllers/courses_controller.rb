@@ -4,25 +4,16 @@ class CoursesController < ApplicationController
         course = Course.create(course_params)
 
         if course.save
-            status = 201
-            response = {
-                course_id: course.id,
-                message: I18n.t('course.created_success')
-            }
+            render json: course, status: :created
         else
-            status = 400
-            response = {
-                errors: course.errors,
-                message: I18n.t('course.failed_to_create'),
-            }
+            render json: course.errors, status: :unprocessable_entity
         end
-        render :json => response, status: status
     end
 
     def index
         courses = Course.includes(:tutors).page.as_json(include: :tutors)
         response = courses.present? ? { courses: courses } : {courses: [], message: I18n.t('course.not_found')}
-        render :json => response, status: 200
+        render :json => response, status: :ok
     end
 
     private
